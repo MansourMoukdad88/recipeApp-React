@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-
+import "./RecipeInput.css"
 class RecipeInput extends Component {
     static defaultProps = {
         onClose () {}
@@ -13,26 +13,39 @@ class RecipeInput extends Component {
             img:""
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleNewIngredient = this.handleNewIngredient.bind(this);
+        this.handleChangeIng = this.handleChangeIng.bind(this);
     }
     handleChange(e){
         this.setState({[e.target.name]: e.target.value});
     }
+    handleNewIngredient(e) {
+        const {ingredients} = this.state;
+        this.setState({ingredients:[...ingredients,""]});
+    }
+    handleChangeIng(e){
+        const index = Number(e.target.name.split('-')[1]);
+        const ingredients = this.state.ingredients.map((ing,i)=> (
+            i === index ? e.target.value : ing
+        ));
+        this.setState({ingredients});
+    }
     render(){
         const { title, instructions, img, ingredients} = this.state;
         const {onClose} = this.props;
-        let inputs = ingredients.map((ing,i)=>{
-            <div className="recipe-form-line" key={`ingredient- ${i}`}>
-                <label>
+        let inputs = ingredients.map((ing,i)=>(
+            <div className="recipe-form-line" key={`ingredient-${i}`}>
+                <label> {i + 1}
                 <input 
                 type="text" 
                 name={`Ingredient -${i}`} 
                 value={ing} size={45} 
                 autoComplete ="off" 
                 placeholder="Ingredient" 
-                onChange ={()=> {}}/>
+                onChange ={this.handleChangeIng}/>
                 </label>
             </div>
-        })
+        ));
         return(
             <div className="recipe-form-container">
                 <form className="recipe-form" onSubmit={()=>{}} >
