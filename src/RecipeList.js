@@ -5,11 +5,13 @@ import "./RecipeList.css";
 
 class RecipeList extends Component {
   static propsType = {
-    recipes: PropTypes.arrayOf(PropTypes.object).isRequired
+    recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onDelete: PropTypes.func.isRequired
   };
   render() {
-    const recipes = this.props.recipes.map((r, id) => (
-      <Recipe key={r.id} {...r} />
+    const {onDelete} = this.props;
+    const recipes = this.props.recipes.map((r, index) => (
+      <Recipe key={r.id} {...r} onDelete={onDelete} />
     ));
     return <div className="recipe-list">{recipes}</div>;
   }
