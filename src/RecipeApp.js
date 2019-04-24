@@ -11,15 +11,15 @@ class RecipeApp extends Component {
     this.state ={
       recipes: [
         {
-          id:1,
+          id:0,
           title: "Spaghetti",
           instructions:
             "Open jar of Spaghetti sauce.  Bring to simmer.  Boil water.  Cook pasta until done.  Combine pasta and sauce",
           ingredients: ["pasta", "8 cups water", "1 box spaghetti"],
-          img: "http://recipetineats.com/wp-content/uploads/2014/06/Pasta1.jpg"
+          img: "https://www.wellplated.com/wp-content/uploads/2017/09/Healthy-Pumpkin-Milkshake.jpg"
         },
         {
-          id:2,
+          id:1,
           title: "Milkshake",
           instructions: "Combine ice cream and milk.  Blend until creamy",
           ingredients: ["2 Scoops Ice cream", "8 ounces milk"],
@@ -27,7 +27,7 @@ class RecipeApp extends Component {
             "https://www.wellplated.com/wp-content/uploads/2017/09/Healthy-Pumpkin-Milkshake.jpg"
         },
         {
-          id:3,
+          id:2,
           title: "Avocado Toast",
           instructions:
             "Toast bread.  Slice avocado and spread on bread.  Add salt, oil, and pepper to taste.",
@@ -44,12 +44,23 @@ class RecipeApp extends Component {
       ],
       nextCreatedId:3,
     }
+    this.handleSave = this.handleSave.bind(this);
+  }
+
+  handleSave(recipe) {
+    this.setState((prevState, props) => {
+      const newRecipe = {...recipe, id: this.state.nextCreatedId}
+      return {
+        nextCreatedId: prevState.nextCreatedId + 1,
+        recipes: [...this.state.recipes, newRecipe ]
+      }
+    });
   }
   render() {
     return (
       <div className="App">
         <Navbar />
-        <RecipeInput/>
+        <RecipeInput onSave = {this.handleSave}/>
         <RecipeList  recipes ={this.state.recipes}/>
       </div>
     );
